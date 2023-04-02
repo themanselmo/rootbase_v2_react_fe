@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import Login from './components/Login';
+import Organization from './OrganizationInterface'
 import './App.css';
 
 function App() {
+  const [organization, setOrganization] = useState<Organization>({
+    name: '',
+    auth_token: '',
+  });
+
+  useEffect(() => {
+    fetch('/current_organization')
+    .then(res => {
+      if(res.ok) {
+        res.json().then((organization) => {
+          setOrganization(organization)
+          console.log(organization)
+        })
+      }
+    })
+  })
+
+  if (organization.auth_token === '') return (
+    <div className="App">
+      <Login />
+    </div>
+  )
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>{`${organization.name} is logged in!`}</p>
     </div>
   );
 }
