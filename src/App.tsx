@@ -19,7 +19,7 @@ function App() {
         })
       }
     })
-  })
+  }, [])
 
   if (organization.auth_token === '') return (
     <div className="App">
