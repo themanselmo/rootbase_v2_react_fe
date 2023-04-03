@@ -1,8 +1,9 @@
 import { useState } from "react"
+import { post } from "../util/requests"
 
 function Login() {
     const [formData, setFormData] = useState({
-        organizationName: '',
+        name: '',
         emailAddress: '',
         firstName: '',
         lastName: '',
@@ -16,11 +17,18 @@ function Login() {
     }
 
     const handleLogin = () => {
-        
+        post('/login', {
+            emailAddress: formData.emailAddress,
+            password: formData.password
+        }).then(data => console.log(data))
+        // navigate to landing page
+
     }
 
     const handleSignUp = () => {
-
+        post('/organizations', formData)
+        .then(data => console.log(data))
+        // navigate to landing page
     }
 
     if (loggingIn) {
@@ -40,7 +48,7 @@ function Login() {
             <div className='login-form'>
                 <p>please sign up</p>
                 <label>Garden Name</label>
-                <input onChange={handleFormDataChange} name='organizationName' value={formData.organizationName}/>
+                <input onChange={handleFormDataChange} name='name' value={formData.name}/>
                 <label>Email Address</label>
                 <input onChange={handleFormDataChange} name='emailAddress' value={formData.emailAddress}/>
                 <label>First Name</label>
